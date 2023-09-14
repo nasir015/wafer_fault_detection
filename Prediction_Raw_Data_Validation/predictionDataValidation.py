@@ -35,9 +35,89 @@ class Prediction_Data_validation:
                                 Output: LengthOfDateStampInFile, LengthOfTimeStampInFile, column_names, Number of Columns
                                 On Failure: Raise ValueError,KeyError,Exception
 
-                                 Written By: iNeuron Intelligence
+                                 Written By: Nasir Uddin
                                 Version: 1.0
                                 Revisions: None
+                                Details code: 
+                                Let's break down the code step by step:
+
+                                1. Constructor (`__init__` method):
+                                
+                                def __init__(self, path):
+                                    self.Batch_Directory = path
+                                    self.schema_path = 'schema_prediction.json'
+                                    self.logger = App_Logger()
+                                
+                                - This is the constructor of a class.
+                                - It takes one argument, `path`, and assigns it to the `Batch_Directory` attribute of the class instance.
+                                - It sets the `schema_path` attribute to the string `'schema_prediction.json'`.
+                                - It initializes a `logger` attribute by creating an instance of the `App_Logger` class (not shown in the provided code).
+
+                                2. Method (`valuesFromSchema` method):
+                                
+                                def valuesFromSchema(self):
+                                    try:
+                                        with open(self.schema_path, 'r') as f:
+                                            dic = json.load(f)
+                                            f.close()
+                                
+                                - This method is named `valuesFromSchema`.
+                                - It attempts to open and read a JSON file specified by the `schema_path` attribute.
+                                - The JSON data is loaded into a dictionary called `dic`, and the file is automatically closed after reading due to the use of a `with` statement.
+
+                                3. Variable Assignment:
+                                
+                                        pattern = dic['SampleFileName']
+                                        LengthOfDateStampInFile = dic['LengthOfDateStampInFile']
+                                        LengthOfTimeStampInFile = dic['LengthOfTimeStampInFile']
+                                        column_names = dic['ColName']
+                                        NumberofColumns = dic['NumberofColumns']
+                                
+                                - Several variables are assigned values from the `dic` dictionary, which was populated with data from the JSON file.
+
+                                4. Logging:
+                                
+                                        file = open("Training_Logs/valuesfromSchemaValidationLog.txt", 'a+')
+                                        message = "LengthOfDateStampInFile:: %s" % LengthOfDateStampInFile + "\t" + "LengthOfTimeStampInFile:: %s" % LengthOfTimeStampInFile + "\t " + "NumberofColumns:: %s" % NumberofColumns + "\n"
+                                        self.logger.log(file, message)
+
+                                        file.close()
+                                
+                                - A log file is opened for appending (`'a+'`) with the path `"Training_Logs/valuesfromSchemaValidationLog.txt"`.
+                                - A log message `message` is constructed as a formatted string, including the values of `LengthOfDateStampInFile`, `LengthOfTimeStampInFile`, and `NumberofColumns`.
+                                - The constructed log message is passed to a `self.logger.log` method (not shown in the provided code).
+                                - The log file is explicitly closed.
+
+                                5. Exception Handling:
+                                
+                                    except ValueError:
+                                        file = open("Prediction_Logs/valuesfromSchemaValidationLog.txt", 'a+')
+                                        self.logger.log(file, "ValueError: Value not found inside schema_training.json")
+                                        file.close()
+                                        raise ValueError
+
+                                    except KeyError:
+                                        file = open("Prediction_Logs/valuesfromSchemaValidationLog.txt", 'a+')
+                                        self.logger.log(file, "KeyError: Key value error incorrect key passed")
+                                        file.close()
+                                        raise KeyError
+
+                                    except Exception as e:
+                                        file = open("Prediction_Logs/valuesfromSchemaValidationLog.txt", 'a+')
+                                        self.logger.log(file, str(e))
+                                        file.close()
+                                        raise e
+                                
+                                - The code includes exception handling for different types of exceptions (`ValueError`, `KeyError`, and generic `Exception`).
+                                - If any of these exceptions are raised during the execution of the code within the `try` block, the code logs an appropriate error message using the `self.logger.log` method and then re-raises the exception to propagate it further.
+
+                                6. Return Statement:
+                                
+                                    return LengthOfDateStampInFile, LengthOfTimeStampInFile, column_names, NumberofColumns
+                                
+                                - The method returns a tuple containing the values of `LengthOfDateStampInFile`, `LengthOfTimeStampInFile`, `column_names`, and `NumberofColumns` to the caller.
+
+                                Overall, this code appears to be part of a larger system that reads information from a JSON schema file, performs some logging and error handling, and returns extracted values from the schema. It relies on a logging mechanism (`self.logger.log`) and assumes the existence of a class called `App_Logger`. Additionally, it handles various exceptions to provide meaningful error messages and raise exceptions when necessary.
 
                                         """
         try:
@@ -88,9 +168,37 @@ class Prediction_Data_validation:
                                       Output: Regex pattern
                                       On Failure: None
 
-                                       Written By: iNeuron Intelligence
+                                       Written By: Md Nasir Uddin
                                       Version: 1.0
                                       Revisions: None
+                                      Details code:
+                                      The manualRegexCreation method appears to be a part of a Python class. Let's break down this method and understand its purpose:
+
+
+                                        def manualRegexCreation(self):
+
+                                        This is a method named manualRegexCreation. It appears to be used for creating a regular expression pattern for validating filenames.
+
+                                        The method includes a docstring that provides information about the method's purpose, usage, and authorship.
+
+                                        python
+                                        Copy code
+                                            regex = "['wafer']+['\_'']+[\d_]+[\d]+\.csv"
+                                            return regex
+                                        Inside the method, a regular expression pattern regex is defined as a string.
+
+                                        The pattern appears to be intended for validating filenames that contain the word "wafer" followed by underscores, digits, and ending with ".csv".
+
+                                        Here's a breakdown of the regular expression pattern:
+
+                                        ['wafer']: This matches the characters 'w', 'a', 'f', 'e', and 'r' in any order.
+                                        ['\_'']+: This matches one or more underscores.
+                                        [\d_]+: This matches one or more digits or underscores.
+                                        [\d]+: This matches one or more digits.
+                                        \.csv: This matches the ".csv" file extension.
+                                        The method returns the regex pattern.
+
+                                        Overall, this method is used to generate a specific regular expression pattern for validating filenames in a particular format. Users can call this method to obtain the regex pattern for validating filenames that match the defined format.
 
                                               """
         regex = "['wafer']+['\_'']+[\d_]+[\d]+\.csv"
